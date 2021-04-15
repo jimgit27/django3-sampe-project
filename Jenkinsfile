@@ -23,5 +23,17 @@ pipeline {
                     ./manage.py test'''
             }
         }
+
+        stage('Deploy w/ ansible'){
+            steps {
+                sshagent (credentials:["ssh-deployment-1"]){
+
+                    sh '''
+                        pwd
+                        ansible-playbook playbooks/check.yml
+                    '''
+                }
+            }
+        }
     }
 }
